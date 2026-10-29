@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}NIELIT Ropar - {{ employee.name }} Details{% endblock %}
+
+{% block content %}
+<style>
+    .round-logo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin-bottom: 12px;
+    }
+    .profile-img {
+        max-width: 200px;
+        max-height: 180px;
+        margin-top: 10px;
+        border-radius: 8px;
+    }
+    .dropbtn {
+        background-color: #002B49;
+        color: white;
+        padding: 10px 18px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 100;
+        border-radius: 4px;
+    }
+    .dropdown-content a {
+        color: black;
+        padding: 10px 16px;
+        text-decoration: none;
+        display: block;
+    }
+    .dropdown-content a:hover {
+        background-color: #f1f1f1;
+    }
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+</style>
+
+
+
+
+    <div class="d-flex justify-content-center">
+        <img src="/static/images/nielit-logo-canva.jpg" alt="Logo" class="round-logo border mt-2">
+    </div>
+    <div class="text-center text-white">
+        <h2>Employee Details</h2>
+    </div>
+    <div class="container">
+
+        <div class="d-flex justify-content-center flex-column">
+            <div class="d-flex justify-content-center mb-4">
+                <div class="col-md-8 bg-white rounded p-4">
+                    <!-- Content Section -->
+                    <div class="">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <img src="{{ employee.profile_image.url }}" alt="{{ employee.name }} Profile Image" class="mb-3 mx-auto d-block profile-img border">
+                                <h3 class="text-center text-uppercase">{{ employee.name }}</h3>
+                            </div>
+
+                            <div class="col-md-7">
+                                <div class="">
+                                    <div class="row 1">
+                                        <div class="col-6 col-md-4">
+                                            <h6>Employee ID: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8" >
+                                            <span>{{ employee.employee_id }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row 2 ">
+                                        <div class="col-6 col-md-4">
+                                            <h6>Department: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{{ employee.department }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row 3">
+                                        <div class="col-6 col-md-4">
+                                            <h6>Date of Birth: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{{ employee.dob }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row 5">
+                                        <div class="col-6 col-md-4">
+                                            <h6>Contact: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{{ employee.contact }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row 6">
+                                        <div class="col-6 col-md-4">
+                                           <h6>Email: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{{ employee.email }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row 7">
+                                        <div class="col-6 col-md-4">
+                                            <h6>Job Title: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{{ employee.job_title }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row 8">
+                                        <div class="col-6 col-md-4">
+                                            <h6>Join Date: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{{ employee.join_date }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row 9">
+                                        <div class="col-6 col-md-4">
+                                            <h6>End Date: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{% if employee.end_date %}{{ employee.end_date }}{% else %}N/A{% endif %}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row 10">
+                                        <div class="col-6 col-md-4">
+                                            <h6>Work Location: </h6>
+                                        </div>
+                                        <div class="col-6 col-md-8">
+                                            <span>{{ employee.work_location }}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    {% if has_card %}
+                    <div class="mt-4 pt-4 border-top">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="font-weight-bold text-dark mb-0">🪪 Digital ID Card Preview</h5>
+                            <span class="badge badge-success px-2 py-1">Verified & Active</span>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-md-6 text-center mb-3">
+                                <span class="badge badge-secondary mb-2 font-weight-bold">FRONT SIDE</span>
+                                <div class="card-preview-box shadow-sm rounded overflow-hidden border bg-light p-2">
+                                    <a href="{{ front_card_url }}" target="_blank" title="Click to view full size">
+                                        <img src="{{ front_card_url }}" alt="Front ID Card" class="img-fluid rounded" style="max-height: 380px; object-fit: contain;">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-center mb-3">
+                                <span class="badge badge-secondary mb-2 font-weight-bold">BACK SIDE (QR CODE)</span>
+                                <div class="card-preview-box shadow-sm rounded overflow-hidden border bg-light p-2">
+                                    <a href="{{ back_card_url }}" target="_blank" title="Click to view full size">
+                                        <img src="{{ back_card_url }}" alt="Back ID Card" class="img-fluid rounded" style="max-height: 380px; object-fit: contain;">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4 pt-3 border-top text-center">
+                        <h6 class="text-muted mb-3 font-weight-bold">Download Official ID Card</h6>
+                        <div class="d-flex justify-content-center flex-wrap gap-2">
+                            <a href="{% url 'download_employee_card' employee.employee_id %}?format=docx" class="btn btn-info m-1 px-3 font-weight-bold text-white">
+                                📝 Word Document (.docx)
+                            </a>
+                            <a href="{% url 'download_employee_card' employee.employee_id %}?format=pdf" class="btn btn-danger m-1 px-3 font-weight-bold">
+                                📄 Printable PDF (A4 Sheet)
+                            </a>
+                            <a href="{% url 'download_employee_card' employee.employee_id %}?format=cr80" class="btn btn-dark m-1 px-3 font-weight-bold">
+                                💳 Plastic Card PDF (CR80)
+                            </a>
+                            <a href="{% url 'download_employee_card' employee.employee_id %}?format=zip" class="btn btn-primary m-1 px-3 font-weight-bold">
+                                📦 Images (ZIP)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="dropdown mt-1 d-flex ">
+        <div class="col-md-12 bg-white" style="padding:0px;">
+            <button class="dropbtn ">Services</button>
+          <div class="dropdown-content">
+          <a href="https://drive.google.com/file/d/1l2vBE6EaFHGDRXi29doW2e3i8J9MAHIt/view?usp=drive_link">Casual Leave Form</a>
+          <a href="#">Employee Form</a>
+          <a href="#">Registration Form</a>
+          </div>
+        </div>
+    </div>
+
+{% endblock %}

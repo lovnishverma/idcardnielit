@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}NIELIT Ropar - ID Card Registration{% endblock %}
+
+{% block content %}
+<style>
+    .round-logo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin-bottom: 12px;
+    }
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+    }
+    .tab button:hover {
+        background-color: #ddd;
+    }
+    .tab button.active {
+        background-color: #002B49;
+        color: white;
+    }
+    .tabcontent {
+        display: none;
+        padding: 12px;
+        border-top: none;
+    }
+</style>
+
+
+
+
+<div class="bg-white p-4">
+    <div class="p-4 jumbotron-fluid text-center">
+      <div class="container">
+        <h1 class="display-5 text-bold">National Institute of Electronics and Information Technology</h1>
+      </div>
+    </div>
+</div>
+
+<div class="tab">
+  <button id="employeeTab" class="tablinks active col-md-6 font-weight-bold" onclick="openForm(event, 'employeeForm')">Employee</button>
+  <button id="studentTab" class="tablinks col-md-6 font-weight-bold" onclick="openForm(event, 'studentForm')">Student</button>
+</div>
+{% if messages %}
+    <div class="alert alert-dismissible fade show" role="alert">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<div class="d-flex justify-content-center">
+    <div id="employeeForm" class="tabcontent col-md-6">
+      <div class="d-flex justify-content-center">
+          <div class="formDiv d-flex justify-content-center w-100 h-50 ">
+              <div class="d-flex justify-content-center mt-4 flex-column col-md-12">
+                  <div class="d-flex justify-content-center">
+                      <img src="/static/images/nielit-logo-canva.jpg" alt="Logo" class="round-logo">
+                  </div>
+                  <div class=" text-center text-white">
+                      <h2>
+                          Employee Registration
+                      </h2>
+                  </div>
+                  <form method="post" class="p-4 w-100 bg-white rounded mb-4 customForm" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ employee_form.as_p }}
+                    <button type="submit" name="employee_submit" class="button btn btn-primary">Register Employee</button>
+                  </form>
+                  <br>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div id="studentForm" class="tabcontent col-md-6">
+      <div class="d-flex justify-content-center">
+          <div class="formDiv d-flex justify-content-center w-100 h-50 ">
+              <div class="d-flex justify-content-center mt-4 flex-column col-md-12">
+                  <div class="d-flex justify-content-center">
+                      <img src="/static/images/nielit-logo-canva.jpg" alt="Logo" class="round-logo">
+                  </div>
+                  <div class=" text-center text-white">
+                      <h2>
+                          Student Registration
+                      </h2>
+                  </div>
+                  <form method="post" class="p-4 w-100 bg-white rounded mb-4 customForm" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        {{ student_form.as_p }}
+
+                        <button type="submit" name="student_submit" class="button btn btn-primary">Register Student</button>
+                    </form>
+
+
+                  <br>
+              </div>
+          </div>
+      </div>
+    </div>
+
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+// Simulate a click on the employee tab button to make it active by default
+document.getElementById("employeeTab").click();
+
+function openForm(evt, formName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(formName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+</script>
+
+
+
+
+<script>
+$(document).ready(function(){
+    function updateBranches() {
+        var selectedCourse = $("#id_course").val();
+
+        $.ajax({
+            url: "/api/get_branches/",
+            type: "GET",
+            data: {
+                'course_id': selectedCourse,
+            },
+            success: function(data) {
+                $("#id_branch").empty();
+
+                $.each(data, function(index, branch) {
+                    $("#id_branch").append('<option value="' + branch.id + '">' + branch.branch_name + '</option>');
+                });
+            },
+            error: function(error) {
+                console.log('Error fetching branch data:', error);
+            }
+        });
+    }
+
+    $("#id_course").change(updateBranches);
+
+    if ($("#id_course").val()) {
+        updateBranches();
+    }
+});
+</script>
+
+
+
+{% endblock %}

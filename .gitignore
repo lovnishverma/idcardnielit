@@ -1,0 +1,31 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments & Secrets
+.venv/
+env/
+venv/
+ENV/
+.env
+
+# Collected static files
+staticfiles/
+
+# Static generated downloads & QR
+static/download/*.jpg
+static/QR/*.png
+static/temp/
+
+# Large backups and archives
+*.zip
+*.tar.gz
+*.rar
+
+# Logs
+*.log
+
+# OS generated
+.DS_Store
+Thumbs.db
