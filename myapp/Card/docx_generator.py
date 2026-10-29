@@ -1,14 +1,6 @@
 # myapp/Card/docx_generator.py
 import os
-
-try:
-    import docx
-    from docx.shared import Mm, Pt
-    from docx.enum.text import WD_ALIGN_PARAGRAPH
-    from docx.enum.table import WD_TABLE_ALIGNMENT
-    HAS_DOCX = True
-except ImportError:
-    HAS_DOCX = False
+import sys
 
 
 def generate_cards_docx(card_pairs, output, back_first=True, card_width_mm=51.0, card_height_mm=86.8):
@@ -23,8 +15,16 @@ def generate_cards_docx(card_pairs, output, back_first=True, card_width_mm=51.0,
     output: file path or BytesIO buffer
     back_first: if True, places Back then Front (matching exact template), else Front then Back.
     """
-    if not HAS_DOCX:
-        raise ImportError("python-docx is not installed. Please run 'pip install python-docx'.")
+    try:
+        import docx
+        from docx.shared import Mm, Pt
+        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.enum.table import WD_TABLE_ALIGNMENT
+    except ImportError as e:
+        raise ImportError(
+            f"python-docx is not loaded in this worker ({e}). "
+            f"Please go to PythonAnywhere 'Web' tab and click the green 'Reload' button."
+        )
 
     doc = docx.Document()
 
