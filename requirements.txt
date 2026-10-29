@@ -8,3 +8,4 @@ reportlab>=4.0
 python-docx>=0.8.11
 whitenoise>=6.0
 python-dotenv>=1.0.0
+python-docx
